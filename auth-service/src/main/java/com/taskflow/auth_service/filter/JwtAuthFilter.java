@@ -1,5 +1,6 @@
 package com.taskflow.auth_service.filter;
 
+import com.taskflow.auth_service.service.TokenBlacklistService;
 import com.taskflow.auth_service.service.UserDetailsServiceImpl;
 import com.taskflow.auth_service.util.JwtUtil;
 import jakarta.servlet.*;
@@ -20,6 +21,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -34,6 +36,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
+
+        if (tokenBlacklistService.isTokenBlacklisted(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String username = jwtUtil.extractUsername(token);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
