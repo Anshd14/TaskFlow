@@ -21,6 +21,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final TaskEventPublisher taskEventPublisher;
 
     public TaskResponse create(Long projectId, TaskRequest request) {
         Project project = projectRepository.findById(projectId)
@@ -41,6 +42,12 @@ public class TaskService {
                 .build();
 
         taskRepository.save(task);
+
+        taskEventPublisher.publishTaskCreated(task);
+        if (assignee != null) {
+            taskEventPublisher.publishTaskAssigned(task);
+        }
+
         return toResponse(task);
     }
 
