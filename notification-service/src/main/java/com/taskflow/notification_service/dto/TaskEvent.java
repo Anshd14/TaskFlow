@@ -1,4 +1,4 @@
-package com.taskflow.auth_service.dto;
+package com.taskflow.notification_service.dto;
 
 import lombok.*;
 

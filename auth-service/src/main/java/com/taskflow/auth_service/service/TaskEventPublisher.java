@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-
 @Service
 @RequiredArgsConstructor
 public class TaskEventPublisher {
@@ -34,7 +32,7 @@ public class TaskEventPublisher {
                 .taskTitle(task.getTitle())
                 .assigneeId(task.getAssignee() != null ? task.getAssignee().getId() : null)
                 .assigneeEmail(task.getAssignee() != null ? task.getAssignee().getEmail() : null)
-                .timestamp(Instant.now())
+                .timestamp(System.currentTimeMillis())
                 .build();
     }
 }
