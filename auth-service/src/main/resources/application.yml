@@ -20,6 +20,13 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: "https://api.groq.com/openai"
+      chat:
+        options:
+          model: "llama-3.3-70b-versatile"
 
 server:
   port: 8080
