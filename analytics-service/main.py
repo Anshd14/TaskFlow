@@ -7,7 +7,7 @@ load_dotenv()
 
 app = FastAPI(title="TaskFlow Analytics Service")
 
-DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/taskflow"
+DATABASE_URL = os.environ.get("DATABASE_URL", "mysql+pymysql://root:root@localhost:3306/taskflow")
 engine = create_engine(DATABASE_URL)
 
 
